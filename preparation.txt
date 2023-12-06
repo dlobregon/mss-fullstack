@@ -1,0 +1,22 @@
+challenge description:
+- It’s a FE application and they are storing and saving APIs and discriminating them when they have the endpoint and excluding dynamic fields,identify the API endpoint, so if send in builder mode you send a specific timestamp, 
+Have to bypass authentication and patching for the layering and impose the browser to inspect and unify code,  
+Purpose is to build a a functional workable playground without any setting.
+
+what it does given this 
+
+
+
+example apis:
+https://reqres.in/
+https://documenter.getpostman.com/view/8854915/Szf7znEe
+
+
+example
+https://codesandbox.io/p/devbox/node-interview-vj29j?file=%2F.codesandbox%2Fworkspace.json
+
+https://github.com/bloominstituteoftechnology/web-s7m3-project-advanced-form-management-thomaswilliamscode
+
+other resources:
+https://github.com/Ajit24/Coderbyte-solution-JS
+https://github.com/KaylaKremer/CoderbyteReact/tree/main/solutions
