@@ -18,14 +18,8 @@ app.post('/', (req, res) => {
         })
     } else {
         const urlTmp = url.parse(urlString, true)
-        const rawQuery = urlTmp.search
-        const [, queryStr] = rawQuery.split('?')
-        const params = []
-        const rawParams = queryStr.split('&')
-        rawParams.forEach((param) => {
-            const [txt] = param.split('=')
-            params.push(txt)
-        })
+        const qParams = urlTmp.query
+        const params = Object.keys(qParams)
         const endpoint = urlTmp.protocol + '//' + urlTmp.host + urlTmp.pathname
         apis.push({
             endpoint,
@@ -41,9 +35,20 @@ app.get('/', (req, res) => {
 
 app.get('/:api', (req, res) => {
     const { api } = req.params
-    const result  = apis[api]
+    const result = apis[api]
     if (result) {
         res.status(200).json(result)
+    } else {
+        res.status(404).json({})
+    }
+})
+
+// function to execute the value from
+app.patch('/:api', (req, res) => {
+    const { api } = req.params
+    const apiTmp = apis[api]
+    if (apiTmp) {
+
     } else {
         res.status(404).json({})
     }
