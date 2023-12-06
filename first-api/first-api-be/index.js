@@ -12,17 +12,31 @@ app.post('/', (req, res) => {
     const { builder, urlString } = req.body
     if (builder && builder === '1') {
         const { params } = req.body
+        const urlTmp = url.parse(urlString, true)
+        const urlObject = {
+            protocol: urlTmp.protocol,
+            hostname: urlTmp.hostname,
+            port: urlTmp.port,
+            pathname: urlTmp.pathname,
+            hash: urlTmp.hash
+        }
         apis.push({
-            endpoint: urlString,
+            urlObject,
             params
         })
     } else {
         const urlTmp = url.parse(urlString, true)
         const qParams = urlTmp.query
         const params = Object.keys(qParams)
-        const endpoint = urlTmp.protocol + '//' + urlTmp.host + urlTmp.pathname
+        const urlObject = {
+            protocol: urlTmp.protocol,
+            hostname: urlTmp.hostname,
+            port: urlTmp.port,
+            pathname: urlTmp.pathname,
+            hash: urlTmp.hash
+        }
         apis.push({
-            endpoint,
+            urlObject,
             params,
         })
     }
@@ -43,12 +57,26 @@ app.get('/:api', (req, res) => {
     }
 })
 
-// function to execute the value from
-app.patch('/:api', (req, res) => {
+// function to execute the value from saved endpoints
+app.patch('/:api', async (req, res) => {
     const { api } = req.params
     const apiTmp = apis[api]
     if (apiTmp) {
-
+        const userParam = req.body
+        const query = apiTmp.params.reduce((result, param) => {
+            result[param] = userParam[param]
+            return result
+        }, {})
+        const urlObject = apiTmp.urlObject
+        urlObject.query = query
+        const myUrl = url.format(urlObject)
+        let response = await fetch(myUrl)
+        if (response.ok) {
+            let body = await response.json()
+            res.status(200).json({ body })
+        } else {
+            res.sendStatus(response.status)
+        }
     } else {
         res.status(404).json({})
     }
