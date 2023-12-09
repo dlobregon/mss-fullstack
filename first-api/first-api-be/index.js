@@ -11,7 +11,7 @@ const apis = []
 //middleware for allos CORS
 const allowCrossDomain = (req, res, next) => {
     res.header(`Access-Control-Allow-Origin`, `*`);
-    res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
+    res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE,OPTIONS,PATCH`);
     res.header(`Access-Control-Allow-Headers`, `Content-Type`);
     next();
 };
@@ -23,7 +23,7 @@ app.use(allowCrossDomain)
 // handling the save process
 app.post('/', (req, res) => {
     const { builder, urlString } = req.body
-    if (builder && builder === '1') {
+    if (builder && builder === 1) {
         const { params } = req.body
         const urlTmp = url.parse(urlString, true)
         const urlObject = {
